@@ -20,6 +20,7 @@ function LoginForm() {
         e.preventDefault();
         const response = await fetch(`http://localhost:4000/authentication/`, {
             method: 'POST',
+            credentials: 'include',  // so that cookies are included in the request
             headers: {
                 'Content-Type': 'application/json'
             },
