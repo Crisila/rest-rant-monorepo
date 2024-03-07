@@ -35,22 +35,66 @@ function PlaceDetails() {
 		history.push('/places')
 	}
 
+
+
+	// async function deleteComment(deletedComment) {
+	// 	await fetch(`http://localhost:4000/places/${place.placeId}/comments/${deletedComment.commentId}`, {
+	// 		method: 'DELETE'
+	// 	});
+
+	// 	setPlace({
+	// 		...place,
+	// 		comments: place.comments
+	// 			.filter(comment => comment.commentId !== deletedComment.commentId)
+	// 	});
+	// }
+
+
+	// async function deleteComment(deleteComment) {
+	// 	const response = await fetch(`http://localhost:4000/places/${place.placeId}/comments/${deletedComment.commentId}`, {
+	// 		method: 'POST',
+	// 		headers: {
+	// 			'Content-Type': 'application/json',
+	// 			'Authorization': `Bearer ${localStorage.getItem('token')}`
+	// 		},
+	// 		body: JSON.stringify(commentAttributes)
+	// 	});
+	// }
+
+
 	async function deleteComment(deletedComment) {
 		await fetch(`http://localhost:4000/places/${place.placeId}/comments/${deletedComment.commentId}`, {
-			method: 'DELETE'
-		})
+			method: 'DELETE',
+			headers: {
+				'Authorization': `Bearer ${localStorage.getItem('token')}`
+			}
+		});
 
 		setPlace({
 			...place,
-			comments: place.comments
-				.filter(comment => comment.commentId !== deletedComment.commentId)
-		})
+			comments: place.comments.filter(comment => comment.commentId !== deletedComment.commentId)
+		});
 	}
+
+	async function deleteComment(deleteComment) {
+		const response = await fetch(`http://localhost:4000/places/${place.placeId}/comments/${deleteComment.commentId}`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${localStorage.getItem('token')}`
+			},
+			body: JSON.stringify(deleteComment)
+		});
+	}
+
+
+
 
 	async function createComment(commentAttributes) {
 		const response = await fetch(`http://localhost:4000/places/${place.placeId}/comments`, {
 			method: 'POST',
 			headers: {
+				'Authorization': `Bearer ${localStorage.getItem('token')}`,
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(commentAttributes)
@@ -151,4 +195,4 @@ function PlaceDetails() {
 	)
 }
 
-export default PlaceDetails
+export default PlaceDetails;
