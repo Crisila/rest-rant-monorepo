@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router"
 import CommentCard from './CommentCard'
 import NewCommentForm from "./NewCommentForm";
+import { CurrentUser } from "../contexts/CurrentUser";
 
 function PlaceDetails() {
 
@@ -36,7 +37,7 @@ function PlaceDetails() {
 	}
 
 
-
+// Code provided by activity
 	// async function deleteComment(deletedComment) {
 	// 	await fetch(`http://localhost:4000/places/${place.placeId}/comments/${deletedComment.commentId}`, {
 	// 		method: 'DELETE'
@@ -61,7 +62,7 @@ function PlaceDetails() {
 	// 	});
 	// }
 
-
+// Corrected code -- Start
 	async function deleteComment(deletedComment) {
 		await fetch(`http://localhost:4000/places/${place.placeId}/comments/${deletedComment.commentId}`, {
 			method: 'DELETE',
@@ -86,7 +87,7 @@ function PlaceDetails() {
 			body: JSON.stringify(deleteComment)
 		});
 	}
-
+// Corrected code -- END
 
 
 
@@ -146,6 +147,22 @@ function PlaceDetails() {
 	}
 
 
+let placeActions = null
+
+if (CurrentUser?.role === 'admin') {
+	placeActions = (
+		<>
+		<a className="btn btn-warning" onClick={editPlace}>Edit</a>
+
+		<button type="submit" className="btn btn-danger" onClick={deletePlace}>
+			Delete
+		</button>
+		
+		</>
+	)
+}
+
+
 	return (
 		<main>
 			<div className="row">
@@ -172,12 +189,13 @@ function PlaceDetails() {
 						Serving {place.cuisines}.
 					</h4>
 					<br />
-					<a className="btn btn-warning" onClick={editPlace}>
+					{/* <a className="btn btn-warning" onClick={editPlace}>
 						Edit
 					</a>{` `}
 					<button type="submit" className="btn btn-danger" onClick={deletePlace}>
 						Delete
-					</button>
+					</button> */}
+					{placeActions}
 				</div>
 			</div>
 			<hr />
